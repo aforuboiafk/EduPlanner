@@ -4,9 +4,7 @@ from .views import EventoViewSet, CalendarioViewSet
 
 router = routers.DefaultRouter()
 
-router.register('eventos', EventoViewSet)
-router.register('calendario', CalendarioViewSet)
+router.register("eventos", EventoViewSet, basename="evento")
+router.register("calendario", CalendarioViewSet, basename="calendario")
 
-urlpatterns = [
-    path('', include(router.urls))
-]
+urlpatterns = [path("", include(router.urls))]

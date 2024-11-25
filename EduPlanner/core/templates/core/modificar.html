@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+
+{% block main %}
+<div class="container my-5">
+  <h2 class="text-center mb-4">Modificar Evento</h2>
+  <form method="POST" action="{% url 'modificar_evento' %}" class="form">
+      {% csrf_token %}
+      <input type="hidden" class="form-control" id="id_evento" name="evento_id" value="{{ evento.id }}" required>
+
+      <div class="mb-3">
+        <label for="id_titulo" class="form-label">Título del Evento</label>
+        <input type="text" class="form-control" id="id_titulo" name="titulo" value="{{ evento.titulo }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_descripcion" class="form-label">Descripción</label>
+        <textarea class="form-control" id="id_descripcion" name="descripcion" rows="4" required>{{ evento.descripcion }}</textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_fecha_inicio" class="form-label">Fecha de Inicio</label>
+        <input type="datetime-local" class="form-control" id="id_fecha_inicio" name="fecha_inicio" value="{{ evento.fecha_inicio|date:'Y-m-d\\TH:i' }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_fecha_fin" class="form-label">Fecha de Fin</label>
+        <input type="datetime-local" class="form-control" id="id_fecha_fin" name="fecha_fin" value="{{ evento.fecha_fin|date:'Y-m-d\\TH:i' }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_tipo" class="form-label">Tipo de Evento</label>
+        <select class="form-select" id="id_tipo" name="tipo" required>
+          {% for tipo in tipos %}
+            <option value="{{ tipo }}" {% if tipo == evento.tipo %}selected{% endif %}>{{ tipo }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_aprobado_mod" class="form-label">¿Aprobado?</label>
+        <select class="form-select" id="id_aprobado_mod" name="aprobado" required>
+          <option value="True" {% if evento.aprobado %}selected{% endif %}>Sí</option>
+          <option value="False" {% if not evento.aprobado %}selected{% endif %}>No</option>
+        </select>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-success btn-lg">Guardar Cambios</button>
+      </div>
+  </form>
+</div>
+{% endblock %}

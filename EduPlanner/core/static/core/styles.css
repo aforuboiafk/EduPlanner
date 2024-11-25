@@ -1,0 +1,82 @@
+/* Estilo personalizado para el calendario */
+.calendar-day {
+    height: 120px;
+    border: 2px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    position: relative;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .calendar-day.empty {
+    background-color: #f0f0f0;
+  }
+
+  .calendar-day span {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+  }
+
+  .navbar {
+    background-color: #007bff;
+  }
+
+  .navbar .navbar-brand {
+    color: #fff;
+    font-weight: bold;
+  }
+
+  .navbar-nav .nav-link {
+    color: #fff;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: #ffd700;
+  }
+
+  .btn-group .btn {
+    border-radius: 50px;
+    font-weight: bold;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+
+  .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+
+  .btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
+
+  /* Modal custom styles */
+  .modal-header {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .modal-footer .btn-secondary {
+    background-color: #6c757d;
+  }
+
+  .modal-footer .btn-danger {
+    background-color: #dc3545;
+  }

@@ -1,63 +1,98 @@
 {% extends 'core/base.html' %}
 
 {% block main %}
-  {% comment %} Calendario {% endcomment %}
-  <div class="container my-4">
-    <h1 class="text-center mb-4">{{ month_name }} {{ year }}</h1>
-    
-    <div class="d-flex justify-content-between mb-3">
-      <a href="?month={{ prev_month }}&year={{ prev_year }}" class="btn btn-primary">&laquo; Anterior</a>
-      <a href="?month={{ next_month }}&year={{ next_year }}" class="btn btn-primary">Siguiente &raquo;</a>
-    </div>
+{% comment %} Calendario {% endcomment %}
+<div class="container">
+  <div class="mb-3">
+    <label for="id_tipo" class="form-label">Tipo</label>
+    {% for tipo in filtr %}
+        <a href="{% url 'home' %}?filtro={{ tipo }}" class="btn btn-primary">{{ tipo }}</a>
+    {% endfor %}
+  </div>
+</div>
 
-    <div class="row text-center fw-bold">
-      <div class="col">Lunes</div>
-      <div class="col">Martes</div>
-      <div class="col">Miércoles</div>
-      <div class="col">Jueves</div>
-      <div class="col">Viernes</div>
-      <div class="col">Sábado</div>
-      <div class="col">Domingo</div>
-    </div>
+{% if fecha_info.dia %}
+<div class="container">
+    Fecha de estos días: {{fecha_info.dia}}-{{fecha_info.mes}}-{{fecha_info.año}}
 
-    {% for week in days %}
-    <div class="row">
-      {% for day in week %}
-      <div class="col calendar-day {% if day == 0 %}empty{% endif %}">
-        {% if day != 0 %}
-          {% if day == 4 %}
-            <button type="button" class="btn btn-success w-100 h-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              Evento
-            </button>
+    <h5>Eventos: </h5>
+
+    <ul class="list-group">
+      {% for evento in calendario.eventos %}
+        {% if evento.fecha_inicio.dia == fecha_info.dia and evento.fecha_inicio.mes == fecha_info.mes and evento.fecha_inicio.año == fecha_info.año %}
+        <li class="list-group-item">
+          <strong>{{ evento.nombre }}</strong> - 
+          Fecha Inicio: {{ evento.fecha_inicio.dia }}/{{ evento.fecha_inicio.mes }}/{{ evento.fecha_inicio.año }} - 
+          Fecha Fin: {{ evento.fecha_fin.dia }}/{{ evento.fecha_fin.mes }}/{{ evento.fecha_fin.año }} - 
+          Tipo: {{ evento.tipo }}
+        </li>
         {% endif %}
-       
-        <span>{{ day }}</span>
-        {% endif %}
-      </div>
+      {% empty %}
+        <li class="list-group-item">No hay eventos disponibles.</li>
       {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<div class="container my-4">
+  <h1 class="text-center mb-4">{{ month_name }} {{ year }}</h1>
+  
+  <div class="d-flex justify-content-between mb-3">
+    <a href="?month={{ prev_month }}&year={{ prev_year }}" class="btn btn-primary">&laquo; Anterior</a>
+    <a href="?month={{ next_month }}&year={{ next_year }}" class="btn btn-primary">Siguiente &raquo;</a>
+  </div>
+
+  <div class="row text-center fw-bold">
+    <div class="col">Lunes</div>
+    <div class="col">Martes</div>
+    <div class="col">Miércoles</div>
+    <div class="col">Jueves</div>
+    <div class="col">Viernes</div>
+    <div class="col">Sábado</div>
+    <div class="col">Domingo</div>
+  </div>
+
+  {% for week in days %}
+  <div class="row">
+    {% for day in week %}
+    <div class="col calendar-day {% if day == 0 %}empty{% endif %}">
+      {% if day != 0 %}
+      {% for evento in calendario.eventos %}
+        {% if evento.fecha_inicio.año == year and evento.fecha_inicio.mes == month and evento.fecha_inicio.dia == day and evento.aprobado == True %}
+        {% if evento.tipo in filtr %}
+        <a href="{% url 'home' %}?mes={{evento.fecha_inicio.mes}}&año={{ evento.fecha_inicio.año }}&dia={{ evento.fecha_inicio.dia }}" class="btn btn-primary w-100 h-100 ">
+            <p>{{ evento.nombre }}</p>
+        </a>
+        {% endif %}
+        {% endif %}
+      {% endfor %}
+      <span>{{ day }}</span>
+      {% endif %}
     </div>
     {% endfor %}
   </div>
+  {% endfor %}
+</div>
 
-  {% comment %} Modal {% endcomment %}
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+{% comment %} Modal {% endcomment %}
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Eventos del día</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar Cambios</button>
       </div>
     </div>
   </div>
+</div>
 
-{% endblock %} 
+{% endblock %}

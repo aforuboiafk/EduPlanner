@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class Evento(models.Model):
     titulo = models.CharField(max_length=150)
     descripcion = models.TextField()
@@ -12,7 +13,8 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.titulo
-    
+
+
 class Feriado(models.Model):
     nombre = models.CharField(max_length=150)
     fecha = models.DateField()
@@ -20,4 +22,3 @@ class Feriado(models.Model):
 
     def __str__(self):
         return f"{self.nombre} ({self.fecha})"
-    

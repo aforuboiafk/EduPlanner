@@ -7,29 +7,44 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Evento',
+            name="Evento",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('titulo', models.CharField(max_length=150)),
-                ('descripcion', models.TextField()),
-                ('fecha_inicio', models.DateTimeField()),
-                ('fecha_fin', models.DateTimeField()),
-                ('tipo', models.CharField(max_length=50)),
-                ('aprobado', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("titulo", models.CharField(max_length=150)),
+                ("descripcion", models.TextField()),
+                ("fecha_inicio", models.DateTimeField()),
+                ("fecha_fin", models.DateTimeField()),
+                ("tipo", models.CharField(max_length=50)),
+                ("aprobado", models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(
-            name='Feriado',
+            name="Feriado",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nombre', models.CharField(max_length=150)),
-                ('fecha', models.DateField()),
-                ('tipo', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("nombre", models.CharField(max_length=150)),
+                ("fecha", models.DateField()),
+                ("tipo", models.CharField(max_length=50)),
             ],
         ),
     ]

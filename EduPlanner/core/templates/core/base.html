@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,34 +7,193 @@
   <title>Calendario</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{% static 'core/styles.css' %}" rel="stylesheet">
   <style>
-    .calendar-day {
-      height: 100px;
-      border: 1px solid #ddd;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-end;
-      padding: 5px;
-      position: relative;
-    }
-    .calendar-day.empty {
-      background-color: #f8f9fa;
-    }
-    .calendar-day span {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      font-weight: bold;
-    }
+    /* Calendario */
+.calendar-day {
+    height: 120px;
+    border: 2px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    position: relative;
+    background-color: #f9f9f9; /* Color de fondo suave */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-day.empty {
+    background-color: #f0f0f0;
+}
+
+.calendar-day span {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Navbar - Azul */
+.navbar {
+    background-color: #007bff; /* Azul */
+}
+
+.navbar .navbar-brand {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.5rem; /* Tamaño de fuente aumentado para hacerlo más destacado */
+}
+
+.navbar-nav .nav-link {
+    color: #fff;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffd700; /* Amarillo */
+}
+
+/* Botones principales */
+.btn-group .btn {
+    border-radius: 50px;
+    font-weight: bold;
+}
+
+/* Botón de éxito - Verde (puedes usarlo en acciones positivas como "agregar") */
+.btn-success {
+    background-color: #28a745; /* Verde */
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Botón de peligro - Rojo (para acciones como "eliminar") */
+.btn-danger {
+    background-color: #dc3545; /* Rojo */
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+/* Estilos para el Modal */
+.modal-header {
+    background-color: #007bff; /* Azul */
+    color: white;
+}
+
+.modal-footer .btn-secondary {
+    background-color: #6c757d; /* Gris */
+}
+
+.modal-footer .btn-danger {
+    background-color: #dc3545; /* Rojo */
+}
+
+/* Botones adicionales */
+.btn-primary {
+    background-color: #007bff; /* Azul */
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+/* Estilos para los enlaces de filtro */
+.btn-primary {
+    background-color: #ffd700; /* Amarillo */
+    color: #333;
+    font-weight: bold;
+    border-radius: 25px;
+}
+
+.btn-primary:hover {
+    background-color: #ffcc00;
+    color: #fff;
+}
+
+/* Otros estilos generales */
+.container {
+    margin-top: 20px;
+}
+
+h1, h5 {
+    color: #333;
+    font-weight: bold;
+}
+
+/* Estilo para las listas */
+.list-group-item {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+}
+
+.list-group-item:hover {
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+/* Emojis para agregar más amigabilidad */
+.btn-success::before {
+    content: "✅ "; /* Agregar un checkmark verde */
+}
+
+.btn-danger::before {
+    content: "❌ "; /* Agregar una cruz roja */
+}
+
+.btn-info::before {
+  content: "📋"; /* Agregar una cruz roja */
+}
+
+.btn-secondary::before {
+  content: "🔧"; /* Agregar una cruz roja */
+}
+
+.navbar .navbar-brand::before {
+    content: "👨‍🏫 "; /* Emoji de profesor para el logo */
+}
+
+.btn-primary::before {
+    content: "🔍 "; /* Agregar una lupa para los filtros */
+}
+
+h1::before {
+    content: "📅 "; /* Agregar un calendario */
+    font-size: 1.2rem;
+}
+
+h5::before {
+    content: "🎉 "; /* Emoji de fiesta para eventos */
+    font-size: 1.2rem;
+}
+
+/* Para los botones de calendario de días */
+.calendar-day span::before {
+    content: "📆 "; /* Agregar un emoji de calendario */
+    font-size: 1.2rem;
+}
+
+
   </style>
+
 </head>
 <body>
 
   <!--NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
       <!-- Logo -->
-      <a class="navbar-brand" href="{% url 'home' %}">MiSitio</a>
+      <a class="navbar-brand" href="{% url 'home' %}">EDUPLANNER 👀</a>
       
       <!-- Botón de colapsado para pantallas pequeñas -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,22 +203,20 @@
       <!-- Contenido del Navbar -->
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <!-- Si el usuario NO está autenticado -->
           {% if not user.is_authenticated %}
-          <li class="nav-item">
-            <a href="{% url 'login' %}" class="nav-link">Iniciar Sesión</a>
-          </li>
+            <li class="nav-item">
+              <a href="{% url 'login' %}" class="nav-link">Iniciar Sesión</a>
+            </li>
           {% else %}
-          <!-- Si el usuario está autenticado -->
-          <li class="nav-item">
-            <span class="nav-link">Hola, {{ user.username }}</span>
-          </li>
-          <li class="nav-item">
-            <form method="POST" action="">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-link nav-link" style="text-decoration: none;">Cerrar Sesión</button>
-            </form>
-          </li>
+            <li class="nav-item">
+              <span class="nav-link">Hola, {{ user.username }}</span>
+            </li>
+            <li class="nav-item">
+              <form method="POST" action="{% url 'logout'%}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link nav-link" style="text-decoration: none;">Cerrar Sesión</button>
+              </form>
+            </li>
           {% endif %}
         </ul>
       </div>
@@ -66,146 +224,127 @@
   </nav>
 
   <main>
-    {% if permisos %}
- 
-    <div class="container mt-4">
-      <h3>Acciones Disponibles</h3>
-      <div class="btn-group" role="group" aria-label="Acciones">
-        <!-- Botón para agregar -->
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
-          Agregar
-        </button>
+    {% if  'Administradores academicos' in grupos or user.is_staff %}
+      <div class="container my-4">
+        <h3 class="text-center mb-4" style="color: #007bff;">Acciones Disponibles</h3>
+        <div class="btn-group" role="group" aria-label="Acciones">
+          <!-- Botón para agregar -->
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
+            Agregar Evento
+          </button>
     
-        <!-- Botón para modificar -->
-        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">
-          Modificar
-        </button>
-    
-        <!-- Botón para eliminar -->
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-          Eliminar
-        </button>
+          <!-- Botón para Listar -->
+          <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            Listar Eventos
+          </button>
+        </div>
       </div>
-    </div>
-    {%endif%}  
+    {% endif %}
+
     {% block main %}{% endblock %}
   </main>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
   <!-- Modal para Agregar -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addModalLabel">Agregar Nuevo Elemento</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <!-- Aquí agregarías el formulario para agregar un nuevo elemento -->
-          <div class="mb-3">
-            <label for="newItem" class="form-label">Nombre del Elemento</label>
-            <input type="text" class="form-control" id="newItem" placeholder="Ingrese el nombre">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-success">Agregar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal para Modificar -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editModalLabel">Modificar Elemento</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <!-- Aquí agregarías el formulario para modificar un elemento -->
-          <div class="mb-3">
-            <label for="editItem" class="form-label">Nombre del Elemento</label>
-            <input type="text" class="form-control" id="editItem" placeholder="Modifique el nombre">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-warning">Modificar</button>
+  <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">Agregar Nuevo Evento</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'crear_evento' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="id_titulo" class="form-label">Título del Evento</label>
+              <input type="text" class="form-control" id="id_titulo" name="titulo" placeholder="Ingrese el título" required>
+            </div>
+            <div class="mb-3">
+              <label for="id_descripcion" class="form-label">Descripción</label>
+              <textarea class="form-control" id="id_descripcion" name="descripcion" placeholder="Ingrese una descripción" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="id_fecha_inicio" class="form-label">Fecha de Inicio</label>
+              <input type="datetime-local" class="form-control" id="id_fecha_inicio" name="fecha_inicio" required>
+            </div>
+            <div class="mb-3">
+              <label for="id_fecha_fin" class="form-label">Fecha de Fin</label>
+              <input type="datetime-local" class="form-control" id="id_fecha_fin" name="fecha_fin" required>
+            </div> 
+            <div class="mb-3">
+              <label for="id_tipo" class="form-label">Tipo de Evento</label>
+              <select class="form-select" id="id_tipo" name="tipo" required>
+                {% for tipo in tipos %}
+                  <option value="{{tipo}}">{{ tipo }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success">Agregar</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal para Eliminar -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg"> <!-- Puedes ajustar el tamaño aquí -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">Eliminar Elemento</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Titulo</th>
-              <th>Descripción</th>
-              <th>Fecha Inicio</th>
-              <th>Fecha Fin</th>
-              <th>Tipo</th>
-              <th>Aprobado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for evento in eventos %}
+  <!-- Modal para Listar -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Listado de Elementos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+          <table class="table table-bordered table-striped">
+            <thead class="table-dark">
               <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>
-                  {%if modifcado == evento.id %}
-                  ola
-                  {%endif%}
-                  {{ evento.titulo }}
-                </td>
-                <td>{{ evento.descripcion }}</td>
-                <td>{{ evento.fecha_inicio }}</td>
-                <td>{{ evento.fecha_fin }}</td>
-                <td>{{ evento.tipo }}</td>
-                <td>{{ evento.aprobado }}</td>
-
-                <td>
-                  <!-- Botón para modificar -->
-                  <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" onclick="Elegir('{{ evento.id }}')">
-                    Modificar
-                  </button>
-                  <!-- Botón para eliminar -->
-                  <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="setDeleteData('{{ evento.nombre }}')">
-                    Eliminar
-                  </button>
-                </td>
+                <th>#</th>
+                <th>Titulo</th>
+                <th>Descripción</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Tipo</th>
+                <th>Aprobado</th>
+                <th>Acciones</th>
               </tr>
-            {% empty %}
-              <tr>
-                <td colspan="3" class="text-center">No hay eventos disponibles</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger">Eliminar</button>
+            </thead>
+            <tbody>
+              {% for evento in eventos %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ evento.titulo }}</td>
+                  <td>{{ evento.descripcion }}</td>
+                  <td>{{ evento.fecha_inicio }}</td>
+                  <td>{{ evento.fecha_fin }}</td>
+                  <td>{{ evento.tipo }}</td>
+                  <td>{{ evento.aprobado }}</td>
+                  <td>
+                    <a href="{% url 'modificar' evento.id %}" class="btn btn-secondary">
+                      Modificar
+                    </a>
+                    <a href="{% url 'eliminar_evento' evento.id %}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este evento?');">
+                      Eliminar
+                    </a>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="3" class="text-center">No hay eventos disponibles</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger">Eliminar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
 </body>
 </html>
