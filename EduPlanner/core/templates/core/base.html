@@ -10,7 +10,7 @@
   <link href="{% static 'core/styles.css' %}" rel="stylesheet">
   <style>
     /* Calendario */
-.calendar-day {
+  .calendar-day {
     height: 120px;
     border: 2px solid #e0e0e0;
     display: flex;
@@ -230,7 +230,7 @@ h5::before {
         <div class="btn-group" role="group" aria-label="Acciones">
           <!-- Botón para agregar -->
           <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
-            Agregar Evento
+            Solicitar nuevo Evento
           </button>
     
           <!-- Botón para Listar -->
@@ -252,7 +252,7 @@ h5::before {
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addModalLabel">Agregar Nuevo Evento</h5>
+          <h5 class="modal-title" id="addModalLabel">Solicitar Nuevo Evento</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -282,7 +282,7 @@ h5::before {
                 {% endfor %}
               </select>
             </div>
-            <button type="submit" class="btn btn-success">Agregar</button>
+            <button type="submit" class="btn btn-success">Solicitar</button>
           </form>
         </div>
       </div>
