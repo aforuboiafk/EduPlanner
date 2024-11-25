@@ -1,35 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calendario</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .calendar-day {
-      height: 100px;
-      border: 1px solid #ddd;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-end;
-      padding: 5px;
-      position: relative;
-    }
-    .calendar-day.empty {
-      background-color: #f8f9fa;
-    }
-    .calendar-day span {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-    
+{% extends 'core/base.html' %}
 
+{% block main %}
+  {% comment %} Calendario {% endcomment %}
   <div class="container my-4">
     <h1 class="text-center mb-4">{{ month_name }} {{ year }}</h1>
     
@@ -53,6 +25,12 @@
       {% for day in week %}
       <div class="col calendar-day {% if day == 0 %}empty{% endif %}">
         {% if day != 0 %}
+          {% if day == 4 %}
+            <button type="button" class="btn btn-success w-100 h-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Evento
+            </button>
+        {% endif %}
+       
         <span>{{ day }}</span>
         {% endif %}
       </div>
@@ -61,7 +39,25 @@
     {% endfor %}
   </div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+  {% comment %} Modal {% endcomment %}
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %} 

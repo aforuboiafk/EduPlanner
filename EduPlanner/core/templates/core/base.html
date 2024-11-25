@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendario</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .calendar-day {
+      height: 100px;
+      border: 1px solid #ddd;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 5px;
+      position: relative;
+    }
+    .calendar-day.empty {
+      background-color: #f8f9fa;
+    }
+    .calendar-day span {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!--NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <!-- Logo -->
+      <a class="navbar-brand" href="{% url 'home' %}">MiSitio</a>
+      
+      <!-- Botón de colapsado para pantallas pequeñas -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Contenido del Navbar -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <!-- Si el usuario NO está autenticado -->
+          {% if not user.is_authenticated %}
+          <li class="nav-item">
+            <a href="{% url 'login' %}" class="nav-link">Iniciar Sesión</a>
+          </li>
+          {% else %}
+          <!-- Si el usuario está autenticado -->
+          <li class="nav-item">
+            <span class="nav-link">Hola, {{ user.username }}</span>
+          </li>
+          <li class="nav-item">
+            <form method="POST" action="">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-link nav-link" style="text-decoration: none;">Cerrar Sesión</button>
+            </form>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    {% if permisos %}
+ 
+    <div class="container mt-4">
+      <h3>Acciones Disponibles</h3>
+      <div class="btn-group" role="group" aria-label="Acciones">
+        <!-- Botón para agregar -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
+          Agregar
+        </button>
+    
+        <!-- Botón para modificar -->
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">
+          Modificar
+        </button>
+    
+        <!-- Botón para eliminar -->
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+          Eliminar
+        </button>
+      </div>
+    </div>
+    {%endif%}  
+    {% block main %}{% endblock %}
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Modal para Agregar -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Agregar Nuevo Elemento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <!-- Aquí agregarías el formulario para agregar un nuevo elemento -->
+          <div class="mb-3">
+            <label for="newItem" class="form-label">Nombre del Elemento</label>
+            <input type="text" class="form-control" id="newItem" placeholder="Ingrese el nombre">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-success">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Modificar -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Modificar Elemento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <!-- Aquí agregarías el formulario para modificar un elemento -->
+          <div class="mb-3">
+            <label for="editItem" class="form-label">Nombre del Elemento</label>
+            <input type="text" class="form-control" id="editItem" placeholder="Modifique el nombre">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-warning">Modificar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Eliminar -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg"> <!-- Puedes ajustar el tamaño aquí -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Eliminar Elemento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Titulo</th>
+              <th>Descripción</th>
+              <th>Fecha Inicio</th>
+              <th>Fecha Fin</th>
+              <th>Tipo</th>
+              <th>Aprobado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for evento in eventos %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                  {%if modifcado == evento.id %}
+                  ola
+                  {%endif%}
+                  {{ evento.titulo }}
+                </td>
+                <td>{{ evento.descripcion }}</td>
+                <td>{{ evento.fecha_inicio }}</td>
+                <td>{{ evento.fecha_fin }}</td>
+                <td>{{ evento.tipo }}</td>
+                <td>{{ evento.aprobado }}</td>
+
+                <td>
+                  <!-- Botón para modificar -->
+                  <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" onclick="Elegir('{{ evento.id }}')">
+                    Modificar
+                  </button>
+                  <!-- Botón para eliminar -->
+                  <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="setDeleteData('{{ evento.nombre }}')">
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="3" class="text-center">No hay eventos disponibles</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
